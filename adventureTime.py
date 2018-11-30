@@ -2,28 +2,28 @@ ref_dict = {"n": ["north", "forward", "upward"], "s": ["south", "back", "backwar
             "e": ["east"], "w": ["west"],
             "take": ["take", "grab", "pick"], "items": ["key", "lockpick", "bucket"],
             "look": ["look", "search", "examine"],
-            "use": ["use", "interact"]}
-class gameManager():
+            "use": ["use", "interact", "place"]}
+class gameManager(object):
         
         def __init__(self):
                 print("lol made")
 
-class item():
-        def __init__(self, name, desc, usable_rooms):
+class item(object):
+        def __init__(self, name, desc, usable_rooms = []):
                 self.name = name
                 self.desc = desc
                 self.usable_rooms = usable_rooms
 
-class room():
+class room(object):
 
-        def __init__(self, name, desc, items, links, locks):
+        def __init__(self, name, desc, links, items = [], locks = []):
                 self.name = name
                 self.desc = desc
-                self.items = items # player items
+                self.items = items
                 self.links = links
                 self.locks = locks
 
-class Player():
+class Player(object):
 
         def __init__(self, cellar):
                 print("player made")
@@ -32,19 +32,22 @@ class Player():
                 self.cage_locked = True
 
 item_dict = {}
-item_dict["key"] = item("key", "a dull key", ["cellar", "room8"])
-item_dict["lockpick"] = item("lockpick", "a lockpick. It picks locks", ["room8"])
-item_dict["bucket"] = item("bucket", "its a bucket. you could put it on your head, but that would't get you far", ["store_cupboard"])
-item_dict["cage"] = item("cage", "The cage sits atop a shelf. Nearby there is a balance with a 5kg weight dangling from it", [])
-item_dict["note1"] = item("note1", "add some lore", [])
+item_dict["key"] = item("key", "a dull key", ["cellar", "entrance_way"])
+item_dict["lockpick"] = item("lockpick", "a lockpick. It picks locks", ["entrance_way"])
+item_dict["bucket"] = item("bucket", "its a bucket. you could put it on your head, but that would't get you far", ["store_cupboard", "fountain"])
+item_dict["cage"] = item("cage", "The cage sits atop a shelf. Nearby there is a balance with a filled bucket dangling from it; making it lean to one side.")
+item_dict["note1"] = item("note1", "add some lore")
 
 world = {}
-world["cellar"] = room("cellar", "A musty old cellar. How come you're down here? The cellar hatch is to the north.", ["duck", "key"],{"N": "kitchen"}, ["N"])
-world["kitchen"] = room("kitchen", "There are some empty cupboards and a bucket. South is the cellar hatch, north lies a doorway to a room with coat hanging on a rack. East is the dining room.", ["bucket"], {"S": "cellar", "E": "dining_room", "N": "room9"}, [])
-world["dining_room"] = room("dining_room", "The table lay bare, the eerie silece of the room disturbs you.", [], {"W": "kitchen", "E": "room6"}, [])
-world["store_cupboard"] = room("store_cupboard", "You see an old key in the corner of the room, locked in a cage.", ["cage"], {"E": "fountain"}, [])
-world["fountain"] = room("fountain", "add desc", [], {"W": "store_cupboard", "N": "room6"}, [])
-world["room6"] = room("room6", "add desc", [], {"E": "dining_room", "N": "room7", "S": "fountain"}, [])
+world["cellar"] = room("cellar", "A musty old cellar. How come you're down here? The cellar hatch is to the north.", {"N": "kitchen"}, ["duck", "key"], ["N"])
+world["kitchen"] = room("kitchen", "An old kitchen, abandoned for years. There are some empty cupboards and a bucket. South is the cellar hatch, north lies a doorway to a room with coats hanging on a rack. East is the dining room.", {"S": "cellar", "E": "dining_room", "N": "coat_racks"}, ["bucket"])
+world["dining_room"] = room("dining_room", "A dining room. Candles are burnt out, but fresh. The table lay bare, the eerie silece of the room disturbs you. West is the Kitchen. East is the corridor to outside. ", {"W": "kitchen", "E": "BTECbalcony"})
+world["store_cupboard"] = room("store_cupboard", "You see an old key in the corner of the room, locked in a cage.", {"E": "fountain"}, ["cage"])
+world["fountain"] = room("fountain", "The crisp wind bites at your skin through your thin clothing. A fountain is in the middle of this small garden", {"W": "store_cupboard", "N": "BTECbalcony"})
+world["BTECbalcony"] = room("BTECbalcony", "The room is bare, and seems to serve only to connect the house to the outside world", {"E": "dining_room", "N": "room7", "S": "fountain"})
+world["coat_racks"] = room("coat_racks", "The room looks like a welcome room. In the corner there stands a coat rack with some coats on it", {"S": "kitchen", "E": "entrance_way"})
+world["entrance_way"] = room("entrance_way", "Entrance way", {"W": "coat_racks"})
+world["exit"] = room("exit", "", {})
 
 def show_help():
         print("To traverse the world, use the keyword 'go' along with a specified direction")
@@ -56,6 +59,8 @@ def show_help():
         print("To pick up items and add them to your inventory, you can use the 'take' keyword in conjunction with an item")
         print("")
         print("You can also use certain items with the 'use' keyword in conjunction with an item")
+        print("")
+        print("You can view your inventory by typing 'inv'")
 
 def make_list(string):
         
@@ -164,6 +169,8 @@ def parse(word_list):
                                 use(word_list[i+1])
 
                         break
+						
+				# test checks
                 elif word_list[i] == "curr":
                         print(player.current_room.name)
                         break
