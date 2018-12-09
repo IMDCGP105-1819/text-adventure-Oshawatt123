@@ -139,21 +139,21 @@ def parse(word_list):
                                         print("moving to other room")
                         if word_list[i+1] in ref_dict["e"]:
                                 if "E" in player.current_room.links:
-                                        if check_locked("N"):
+                                        if check_locked("E"):
                                                 print("The doorway is locked")
                                                 break
                                         player.current_room = world[player.current_room.links["E"]]
                                         print("moving to other room")
                         if word_list[i+1] in ref_dict["s"]:
                                 if "S" in player.current_room.links:
-                                        if check_locked("N"):
+                                        if check_locked("S"):
                                                 print("The doorway is locked")
                                                 break
                                         player.current_room = world[player.current_room.links["S"]]
                                         print("moving to other room")
                         if word_list[i+1] in ref_dict["w"]:
                                 if "W" in player.current_room.links:
-                                        if check_locked("N"):
+                                        if check_locked("W"):
                                                 print("The doorway is locked")
                                                 break
                                         player.current_room = world[player.current_room.links["W"]]
