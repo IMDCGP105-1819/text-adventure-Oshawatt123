@@ -3,15 +3,17 @@ ref_dict = {"n": ["north", "forward", "upward"], "s": ["south", "back", "backwar
             "take": ["take", "grab", "pick"], "items": ["key", "lockpick", "bucket"],
             "look": ["look", "search", "examine"],
             "use": ["use", "interact", "place"]}
+
 class gameManager(object):
         
         def __init__(self):
                 print("lol made")
 
 class item(object):
-        def __init__(self, name, desc, usable_rooms = []):
+        def __init__(self, name, desc, takable = True, usable_rooms = []):
                 self.name = name
                 self.desc = desc
+                self.takable = takable
                 self.usable_rooms = usable_rooms
 
 class room(object):
@@ -32,15 +34,20 @@ class Player(object):
                 self.cage_locked = True
 
 item_dict = {}
-item_dict["key"] = item("key", "a dull key", ["cellar", "entrance_way"])
-item_dict["lockpick"] = item("lockpick", "a lockpick. It picks locks", ["entrance_way"])
-item_dict["bucket"] = item("bucket", "its a bucket. you could put it on your head, but that would't get you far", ["store_cupboard", "fountain"])
+item_dict["key"] = item("key", "a dull key", True, ["cellar", "entrance_way"])
+item_dict["lockpick"] = item("lockpick", "a lockpick. It picks locks", True, ["entrance_way"])
+item_dict["bucket"] = item("bucket", "its a bucket. you could put it on your head, but that would't get you far", True, ["fountain"])
+item_dict["waterbucket"] = item("waterbucket", "its a bucket. it is filled with water and has some weight to it", True, ["store_cupboard"])
 item_dict["cage"] = item("cage", "The cage sits atop a shelf. Nearby there is a balance with a filled bucket dangling from it; making it lean to one side.")
 item_dict["note1"] = item("note1", "add some lore")
+item_dict["cupboards"] = item("cupboards", "You swing the cupboards open and a spider crawls out onto your arm before quickly disappearing.", False)
+item_dict["coats"] = item("coats", "The coats hang from the coat rack and you have a quick shimmy in the pockets to find nothing but some pocket lint and tissues", False)
+item_dict["table"] = item("table", "The table is cold. The remnants of food fill your nostrils, but see no signs of a recent dinner anywhere", False)
+item_dict["candles"] = item("candles", "The wax is warm to your skin, and the candle was lit recently.", False)
 
 world = {}
 world["cellar"] = room("cellar", "A musty old cellar. How come you're down here? The cellar hatch is to the north.", {"N": "kitchen"}, ["duck", "key"], ["N"])
-world["kitchen"] = room("kitchen", "An old kitchen, abandoned for years. There are some empty cupboards and a bucket. South is the cellar hatch, north lies a doorway to a room with coats hanging on a rack. East is the dining room.", {"S": "cellar", "E": "dining_room", "N": "coat_racks"}, ["bucket"])
+world["kitchen"] = room("kitchen", "An old kitchen, abandoned for years. There are some empty cupboards and a bucket. South is the cellar hatch, north lies a doorway to a room with coats hanging on a rack. East is the dining room.", {"S": "cellar", "E": "dining_room", "N": "coat_racks"}, ["bucket", "cupboards"])
 world["dining_room"] = room("dining_room", "A dining room. Candles are burnt out, but fresh. The table lay bare, the eerie silece of the room disturbs you. West is the Kitchen. East is the corridor to outside. ", {"W": "kitchen", "E": "BTECbalcony"})
 world["store_cupboard"] = room("store_cupboard", "You see an old key in the corner of the room, locked in a cage.", {"E": "fountain"}, ["cage"])
 world["fountain"] = room("fountain", "The crisp wind bites at your skin through your thin clothing. A fountain is in the middle of this small garden", {"W": "store_cupboard", "N": "BTECbalcony"})
@@ -61,6 +68,8 @@ def show_help():
         print("You can also use certain items with the 'use' keyword in conjunction with an item")
         print("")
         print("You can view your inventory by typing 'inv'")
+        print("")
+        print("If you forget what room you are in at any time, simply use the command 'curr'")
 
 def make_list(string):
         
@@ -92,6 +101,14 @@ def use(item):
                 player.current_room.locks.pop()
                 player.inv.remove(item)
                 print("The lock opens with an audible click")
+        elif item == "bucket":
+                player.inv.remove(item)
+                player.inv.append("waterbucket")
+                world["store_cupboard"].items.append("key")
+                print("You fill the bucket with water from the fountain")
+        elif item == "waterbucket":
+                player.inv.remove(item)
+                print("you place the water bucket delicately on the scales, and it balances perfectly; causing the cage door to swing open")
 
 def parse(word_list):
         i = 0
@@ -107,7 +124,7 @@ def parse(word_list):
                                 print("\n" + get_room_desc())
                                 break
                         else:
-                                if word_list[i+1] in item_dict:
+                                if word_list[i+1] in item_dict and (word_list[i+1] in player.inv or word_list[i+1] in player.current_room.items):
                                         print(item_dict[word_list[i+1]].desc)
                         break
                 
@@ -164,13 +181,15 @@ def parse(word_list):
                         if len(word_list) < i+2:
                                 print("please specify an item to use")
                                 break
-                        if word_list[i+1] in player.inv: #or word_list[i+1] in player.current_room.items:
+                        if word_list[i+1] in player.inv and item_dict[word_list[i+1]].takable == True: #or word_list[i+1] in player.current_room.items:
                                 print("using item " + word_list[i+1])
                                 use(word_list[i+1])
+                        else:
+                                print("item not in inventory")
 
                         break
 						
-				# test checks
+		# test checks converted to player-usable commands
                 elif word_list[i] == "curr":
                         print(player.current_room.name)
                         break
