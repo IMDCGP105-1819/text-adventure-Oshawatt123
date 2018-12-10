@@ -1,7 +1,6 @@
 ref_dict = {"n": ["north", "forward", "upward"], "s": ["south", "back", "backward"],
             "e": ["east", "left"], "w": ["west", "right"],
             "take": ["take", "grab", "pick"], "drop": ["drop", "throw"],
-	    "items": ["key", "lockpick", "bucket"],
             "look": ["look", "search", "examine"],
             "use": ["use", "interact", "place"]}
 
@@ -35,16 +34,45 @@ class Player(object):
                 self.cage_locked = True
 
 item_dict = {}
+#Cellar items
 item_dict["key"] = item("key", "a dull key", True, ["cellar", "entrance_way"])
-item_dict["lockpick"] = item("lockpick", "a lockpick. It picks locks", True, ["entrance_way"])
-item_dict["bucket"] = item("bucket", "its a bucket. you could put it on your head, but that would't get you far", True, ["fountain"])
-item_dict["waterbucket"] = item("waterbucket", "its a bucket. it is filled with water and has some weight to it", False, ["store_cupboard"])
+item_dict["duck"] = item("duck", "a squeaky duck", True)
+item_dict["dirt"] = item("dirt", "Moist ground that squelches under the pressure of your bare foot")
+#Kitchen items
+item_dict["bucket"] = item("bucket", "its a bucket. you could put it on your head, but that would't get you far.", True, ["fountain"])
+item_dict["cupboards"] = item("cupboards", "You swing the cupboards open and a spider crawls out onto your arm before quickly disappearing.")
+item_dict["oven"] = item("oven", "The oven is off; cold.")
+item_dict["knife"] = item("knife", "The knife has a distinctively dull blade.", True)
+#Coats items
+item_dict["coats"] = item("coats", "The coats hang from the coat rack and you have a quick shimmy in the pockets to find nothing but some pocket lint and tissues.")
+item_dict["coatrack"] = item("coatrack", "The coatrack is made of a dark hardwood, perhaps oak.")
+item_dict["window"] = item("window", "You slowly move toward the window, and in the distance through the fog you can see the faint outline of what you think is something human")
+#Main Room items
+item_dict["door"] = item("door", "The cold door is reinforced with wraught iron, leaving no way to break through.")
+item_dict["keyrack"] = item("keyrack", "There are no keys on the keyrack, but is worn down; implying the normal presence of a key")
+item_dict["painting"] = item("pinting", "It looks as if it is staring deep into your soul; penetrating your mind")
+#Library items
+item_dict["bookshelf"] = item("bookshelf", "The bookshelf looms over you, filled with all the knowlegde. Along with my brand new Lamborghini")
+#Dining Room items
+item_dict["table"] = item("table", "The table is cold. The remnants of food fill your nostrils, but see no signs of a recent dinner anywhere")
+item_dict["chair"] = item("chair", "The crude sun lounging chairs looks quite comfy, especially for eating. However, you feel like if you sat on the chairs, you would break it")
+item_dict["candles"] = item("candles", "The wax is warm to your skin, and the candle was lit recently.")
+item_dict["curtain"] = item("curtain", "The curtains blow in the wind, flapping calmly next to the window." + /n + "After closer inspection, the window is not open..")
+#"Conservatory?" items
+item_dict["plant"] = item("plant", "A potted plant. Quite cute")
+item_dict["rockinghorse"] = item("rockinghorse", "The horse is rocking. The horse is rocking...")
+#Fountain items
+item_dict["fountain"] = item("fountain", "You're pretty sure this is the only functioning item in this house.")
+item_dict["doghouse"] = item("doghouse", "Was there a dog here? Who knows")
+item_dict["leaves"] = item("leaves", "A mess of leaves")
+#Storage Room items
 item_dict["cage"] = item("cage", "The cage sits atop a shelf. Nearby there is a balance with a filled bucket dangling from it; making it lean to one side.")
-item_dict["note1"] = item("note1", "add some lore", True)
-item_dict["cupboards"] = item("cupboards", "You swing the cupboards open and a spider crawls out onto your arm before quickly disappearing.", False)
-item_dict["coats"] = item("coats", "The coats hang from the coat rack and you have a quick shimmy in the pockets to find nothing but some pocket lint and tissues", False)
-item_dict["table"] = item("table", "The table is cold. The remnants of food fill your nostrils, but see no signs of a recent dinner anywhere", False)
-item_dict["candles"] = item("candles", "The wax is warm to your skin, and the candle was lit recently.", False)
+item_dict["rake"] = item("rake", "A nice rake, prime for raking", True)
+
+item_dict["lockpick"] = item("lockpick", "a lockpick. It picks locks", True, ["entrance_way"])
+item_dict["waterbucket"] = item("waterbucket", "its a bucket. it is filled with water and has some weight to it", False, ["store_cupboard"])
+
+#item_dict["note1"] = item("note1", "add some lore", True)
 
 world = {}
 world["cellar"] = room("cellar", "A musty old cellar. How come you're down here? The cellar hatch is to the north.", {"N": "kitchen"}, ["duck", "key"], ["N"])
@@ -212,8 +240,21 @@ def parse(word_list):
                 elif word_list[i] == "inv":
                         print(player.inv)
                         break
+
+                # custom command checks
+                elif word_list[i] == "sit":
+                        if player.current_room.name == "dining_room":
+                                if word_list[i+1] == "chair" or word_list[i+1] == "chairs":
+                                        print("You sit on the chair and it snaps. Told ya.")
+                                        break
+                elif word_list[i] == "rake":
+                        if player.current_room.name == "fountain":
+                                if (word_list[i+1] == "leaves" or word_list[i+1] == "leaf") and "rake" in playuer.inv:
+                                        print("You rake the leaves and the ground is much tidier now. Good on you.")
+                                        break        
                 else:
                         break
+
         i += 1
         print("")
 
