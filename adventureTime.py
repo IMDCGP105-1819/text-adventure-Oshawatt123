@@ -1,6 +1,7 @@
 ref_dict = {"n": ["north", "forward", "upward"], "s": ["south", "back", "backward"],
-            "e": ["east"], "w": ["west"],
-            "take": ["take", "grab", "pick"], "items": ["key", "lockpick", "bucket"],
+            "e": ["east", "left"], "w": ["west", "right"],
+            "take": ["take", "grab", "pick"], "drop": ["drop", "throw"],
+	    "items": ["key", "lockpick", "bucket"],
             "look": ["look", "search", "examine"],
             "use": ["use", "interact", "place"]}
 
@@ -10,7 +11,7 @@ class gameManager(object):
                 print("lol made")
 
 class item(object):
-        def __init__(self, name, desc, takable = True, usable_rooms = []):
+        def __init__(self, name, desc, takable = False, usable_rooms = []):
                 self.name = name
                 self.desc = desc
                 self.takable = takable
@@ -37,9 +38,9 @@ item_dict = {}
 item_dict["key"] = item("key", "a dull key", True, ["cellar", "entrance_way"])
 item_dict["lockpick"] = item("lockpick", "a lockpick. It picks locks", True, ["entrance_way"])
 item_dict["bucket"] = item("bucket", "its a bucket. you could put it on your head, but that would't get you far", True, ["fountain"])
-item_dict["waterbucket"] = item("waterbucket", "its a bucket. it is filled with water and has some weight to it", True, ["store_cupboard"])
+item_dict["waterbucket"] = item("waterbucket", "its a bucket. it is filled with water and has some weight to it", False, ["store_cupboard"])
 item_dict["cage"] = item("cage", "The cage sits atop a shelf. Nearby there is a balance with a filled bucket dangling from it; making it lean to one side.")
-item_dict["note1"] = item("note1", "add some lore")
+item_dict["note1"] = item("note1", "add some lore", True)
 item_dict["cupboards"] = item("cupboards", "You swing the cupboards open and a spider crawls out onto your arm before quickly disappearing.", False)
 item_dict["coats"] = item("coats", "The coats hang from the coat rack and you have a quick shimmy in the pockets to find nothing but some pocket lint and tissues", False)
 item_dict["table"] = item("table", "The table is cold. The remnants of food fill your nostrils, but see no signs of a recent dinner anywhere", False)
@@ -173,6 +174,21 @@ def parse(word_list):
                                         player.current_room.items.remove(word_list[i+1])
                                 else:
                                         print("item not found")
+                        break
+
+                # drop check
+                elif word_list[i] in ref_dict["drop"]:
+                        print("trying to drop item")
+                        if len(word_list) < i+2:
+                                print("pleas specify something to drop")
+                                break
+                        if len(player.inv) > 0:
+                                if word_list[i+1] in player.inv:
+                                        player.inv.remove(word_list[i+1])
+                                        player.current_room.items.append(word_list[i+1])
+                                        print("item " + word_list[i+1] + " dropped")
+                                else:
+                                        print("you can not drop this item as it is not in your inventory")
                         break
                 
                 # use check
