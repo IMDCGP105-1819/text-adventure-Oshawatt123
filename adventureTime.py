@@ -33,7 +33,25 @@ class Player(object):
                 self.inv = []
                 self.cage_locked = True
 
+def make_item_dict():
+        # open file in read mode and use file.readlines() to get array of lines
+        file = open("items.txt", "r")
+        linearray = file.readlines()
+        for i in range(len(linearray)):
+                # skip first line
+                if i == 0:
+                        pass
+                
+                # VV ITERATING VV
+                # split on commas
+                # make the item
+                else:
+                        tempitem = linearray[i].split(",")
+                        print(tempitem)
+        print("item dictionary made")
+
 item_dict = {}
+make_item_dict()
 item_dict["key"] = item("key", "a dull key", True, ["cellar", "entrance_way"])
 item_dict["lockpick"] = item("lockpick", "a lockpick. It picks locks", True, ["entrance_way"])
 item_dict["bucket"] = item("bucket", "its a bucket. you could put it on your head, but that would't get you far", True, ["fountain"])
