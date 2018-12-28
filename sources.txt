@@ -1,3 +1,2 @@
 Room Movement System:
 https://gamedev.stackexchange.com/questions/143523/movement-in-a-text-based-game-using-room-class-python
-https://www.pythonforbeginners.com/files/reading-and-writing-files-in-python

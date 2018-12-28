@@ -1,2 +1,0 @@
-dict_name, game_name, description, Takable = True, Usable_Rooms = []
-key,key,a dull key,True,["cellar", "entrance_way"]
