@@ -33,6 +33,24 @@ class Player(object):
                 self.inv = []
                 self.cage_locked = True
 
+def make_item_dict():
+        #open file in read mode and get array of lines
+        file = open("items.txt", "r")
+        linearray = file.readlines()
+        for i in range(len(linearray)):
+                # skip first line
+                if i == 0:
+                        pass
+                
+                else:
+                        # split on commas
+                        tempitem = linearray[i].split(",")
+                        print(tempitem)
+                        # make item
+        print("item dictionary made")
+
+make_item_dict()
+
 item_dict = {}
 #Cellar items
 item_dict["key"] = item("key", "a dull key", True, ["cellar", "entrance_way"])
@@ -57,7 +75,7 @@ item_dict["bookshelf"] = item("bookshelf", "The bookshelf looms over you, filled
 item_dict["table"] = item("table", "The table is cold. The remnants of food fill your nostrils, but see no signs of a recent dinner anywhere")
 item_dict["chair"] = item("chair", "The crude sun lounging chairs looks quite comfy, especially for eating. However, you feel like if you sat on the chairs, you would break it")
 item_dict["candles"] = item("candles", "The wax is warm to your skin, and the candle was lit recently.")
-item_dict["curtain"] = item("curtain", "The curtains blow in the wind, flapping calmly next to the window." + /n + "After closer inspection, the window is not open..")
+item_dict["curtain"] = item("curtain", "The curtains blow in the wind, flapping calmly next to the window. After closer inspection, the window is not open..")
 #"Conservatory?" items
 item_dict["plant"] = item("plant", "A potted plant. Quite cute")
 item_dict["rockinghorse"] = item("rockinghorse", "The horse is rocking. The horse is rocking...")
