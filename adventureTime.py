@@ -13,7 +13,10 @@ class item(object):
         def __init__(self, name, desc, takable = False, usable_rooms = []):
                 self.name = name
                 self.desc = desc
-                self.takable = takable
+                if takable == "True" or takable == "true":
+                    self.takable = True
+                else:
+                    self.takable = takable
                 self.usable_rooms = usable_rooms
 
 class room(object):
@@ -44,17 +47,34 @@ def make_item_dict():
                 
                 else:
                         # split on commas
-                        tempitem = linearray[i].split(",")
+                        tempitem = linearray[i].split(";")
                         print(tempitem)
                         # make item
+                        print(len(tempitem))
+                        # different cases for items since there are optional parameters, so dont want to go over the array length
+                        if len(tempitem) == 3: # no optional paramters given
+                                item_dict[tempitem[0]] = item(tempitem[1], tempitem[2])
+                        elif len(tempitem) == 4: # takable optional parameter taken
+                                item_dict[tempitem[0]] = item(tempitem[1], tempitem[2], tempitem[3])
+                        elif len(tempitem) == 5: # above and usable rooms optional paramters taken
+                                # make list for usable room from string, so that i pass a list into the item class (userooms), not a string
+                                # since we can not search through a string like a list to check rooms
+                                # delete brackets
+                                tempitem[4] = tempitem[4][1:len(tempitem[4])]
+                                # split on comma
+                                userooms = tempitem[4].split(",")
+                                item_dict[tempitem[0]] = item(tempitem[1], tempitem[2], tempitem[3], userooms)
         print("item dictionary made")
+
+item_dict = {}
 
 make_item_dict()
 
-item_dict = {}
+# items added to the item text file have been hashed out
+
 #Cellar items
-item_dict["key"] = item("key", "a dull key", True, ["cellar", "entrance_way"])
-item_dict["duck"] = item("duck", "a squeaky duck", True)
+#item_dict["key"] = item("key", "a dull key", True, ["cellar", "entrance_way"])
+#item_dict["duck"] = item("duck", "a squeaky duck", True)
 item_dict["dirt"] = item("dirt", "Moist ground that squelches under the pressure of your bare foot")
 #Kitchen items
 item_dict["bucket"] = item("bucket", "its a bucket. you could put it on your head, but that would't get you far.", True, ["fountain"])

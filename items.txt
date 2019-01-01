@@ -1,2 +1,3 @@
-dict_name, game_name, description, Takable = True, Usable_Rooms = []
-key,key,a dull key,True,["cellar", "entrance_way"]
+FORMAT: dict_name;game_name;description;Takable = False;Usable_Rooms = []	RULES: NO SPACES EXCEPT FOR DESCRIPTION PURPOSES, NO "" OR ''
+key;key;a dull key;True;[cellar,entrance_way]
+duck;duck;a squeaky duck
