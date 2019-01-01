@@ -44,7 +44,6 @@ def make_item_dict():
                 # skip first line
                 if i == 0:
                         pass
-                
                 else:
                         # split on commas
                         tempitem = linearray[i].split(";")
@@ -106,7 +105,7 @@ item_dict["leaves"] = item("leaves", "A mess of leaves")
 #Storage Room items
 item_dict["cage"] = item("cage", "The cage sits atop a shelf. Nearby there is a balance with a filled bucket dangling from it; making it lean to one side.")
 item_dict["rake"] = item("rake", "A nice rake, prime for raking", True)
-
+#Non Findable items
 item_dict["lockpick"] = item("lockpick", "a lockpick. It picks locks", True, ["entrance_way"])
 item_dict["waterbucket"] = item("waterbucket", "its a bucket. it is filled with water and has some weight to it", False, ["store_cupboard"])
 
@@ -139,7 +138,7 @@ def show_help():
         print("If you forget what room you are in at any time, simply use the command 'curr'")
 
 def make_list(string):
-        
+        # makes a list of words from a string, seperated on spaces
         string = string.lower()
         word_list = string.split(" ")
         if "up" in word_list:
@@ -147,12 +146,14 @@ def make_list(string):
         return word_list
 
 def check_locked(direction):
+        # being efficient with a function because I used this a fair bit
         if direction in player.current_room.locks:
                 return True
         else:
                 return False
 
 def get_room_desc():
+        # gets description of the player's current room
         string = ""
         string = string + player.current_room.desc
         
