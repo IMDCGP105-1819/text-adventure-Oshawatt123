@@ -1,0 +1,2 @@
+FORMAT: dict_name;game_name;description;links;items = [];locks = []	RULES: NO SPACES EXCEPT FOR DESCRIPTION PURPOSES, NO "" OR ''
+cellar;cellar;description;{N:kitchen};[duck,key],[N]
