@@ -1,0 +1,14 @@
+Take the key in the cellar
+Use it on the cellar hatch (only have to say 'use key')
+go north to the kitchen
+Take the bucket from the kitchen
+Traverse to the room with the fountain (go east -> go east -> go south)
+use bucket to fill it up with water
+go to the store cupboard (go west)
+use waterbucket to balance the scales
+take key
+go to the entrance room (go east -> go north -> go north -> go west)
+use key
+go north
+TADAAAA
+Hope you enjoyed :)

@@ -1,3 +1,28 @@
 FORMAT: dict_name;game_name;description;Takable = False;Usable_Rooms = []	RULES: NO SPACES EXCEPT FOR DESCRIPTION PURPOSES, NO "" OR ''
 key;key;a dull key;True;[cellar,entrance_way]
 duck;duck;a squeaky duck
+dirt;dirt;Moist ground that squelches under the pressure of your bare foot
+bucket;bucket;Its a bucket. you could put it on your head, but that would't get you far.;True;[fountain]
+cupboards;cupboards;You swing the cupboards open and a spider crawls out onto your arm before quickly disappearing.
+oven;oven;The oven is off. Cold.
+kinfe;knife;The knife has a distinctively dull blade.;True
+coats;coats;The coats hang from the coat rack and you have a quick shimmy in the pockets to find nothing but some pocket lint and tissues.
+coatrack;coatrack;The coatrack is made of a dark hardwood, perhaps oak.
+window;window;You slowly move toward the window, and in the distance through the fog you can see the faint outline of what you think is something human
+door;door;The cold door is reinforced with a wraught iron lock, leaving no way to break through but maybe a key can help...
+keyrack;keyrack;There are no keys on the keyrack, but is worn down; implying the normal presence of a key
+painting;painting;It looks as if it is staring deep into your soul; penetrating your mind
+bookshelf;bookshelf;The bookshelf looms over you, filled with all of the knowlegde. Along with my brand new Lamborghini
+table;tableThe table is cold. The remnants of food fill your nostrils, but see no signs of a recent dinner anywhere
+chair;chair;The crude sun lounging chairs looks quite comfy, especially for eating. However, you feel like if you sat on the chairs, you would break it
+candles;candles;The wax is warm to your skin, and the candle was lit recently.
+curtain;curtain;The curtains blow in the wind, flapping calmly next to the window. After closer inspection, the window is not open..
+plant;plant;A potted plant. Quite cute;True
+rockinghorse;rockinghorse;The horse is rocking. The horse is rocking...
+fountain;fountain;You're pretty sure this is the only functioning item in this house.
+doghouse;doghouse;Was there a dog here? Who knows
+leaves;leaves;A mess of leaves
+cage;cage;The cage sits atop a shelf. Nearby there is a balance with a filled bucket dangling from it, making it lean to one side.
+rake;rake;A nice rake, in its prime for raking;True
+lockpick;lockpick;a lockpick. It picks locks;True;[entrance_way]
+waterbucket;waterbucket;its a bucket. it is filled with water and has some weight to it;True;[store_cupboard]
