@@ -52,7 +52,7 @@ def make_item_dict():
                         if len(tempitem) == 3: # no optional paramters given
                                 item_dict[tempitem[0]] = item(tempitem[1], tempitem[2])
                         elif len(tempitem) == 4: # takable optional parameter taken
-                                item_dict[tempitem[0]] = item(tempitem[1], tempitem[2], tempitem[3])
+                                item_dict[tempitem[0]] = item(tempitem[1], tempitem[2], tempitem[3], [])
                         elif len(tempitem) == 5: # above and usable rooms optional paramters taken
                                 # make list for usable room from string, so that i pass a list into the item class (userooms), not a string
                                 # since we can not search through a string like a list to check rooms
@@ -87,6 +87,7 @@ make_item_dict()
 #item_dict["coats"] = item("coats", "The coats hang from the coat rack and you have a quick shimmy in the pockets to find nothing but some pocket lint and tissues.")
 #item_dict["coatrack"] = item("coatrack", "The coatrack is made of a dark hardwood, perhaps oak.")
 #item_dict["window"] = item("window", "You slowly move toward the window, and in the distance through the fog you can see the faint outline of what you think is something human")
+
 #Main Room items
 
 #item_dict["door"] = item("door", "The cold door is reinforced with wraught iron, leaving no way to break through.")
@@ -128,18 +129,19 @@ make_item_dict()
 #item_dict["note1"] = item("note1", "add some lore", True)
 
 world = {}
-world["cellar"] = room("cellar", "A musty old cellar. How come you're down here? The cellar hatch is to the north.", {"N": "kitchen"}, ["duck", "key"], ["N"])
-world["kitchen"] = room("kitchen", "An old kitchen, abandoned for years. There are some empty cupboards and a bucket. South is the cellar hatch, north lies a doorway to a room with coats hanging on a rack. East is the dining room.", {"S": "cellar", "E": "dining_room", "N": "coat_racks"}, ["bucket", "cupboards"])
-world["dining_room"] = room("dining_room", "A dining room. Candles are burnt out, but fresh. The table lay bare, the eerie silece of the room disturbs you. West is the Kitchen. East is the corridor to outside. ", {"W": "kitchen", "E": "BTECbalcony"})
-world["store_cupboard"] = room("store_cupboard", "You see an old key in the corner of the room, locked in a cage.", {"E": "fountain"}, ["cage"])
-world["fountain"] = room("fountain", "The crisp wind bites at your skin through your thin clothing. A fountain is in the middle of this small garden", {"W": "store_cupboard", "N": "BTECbalcony"})
-world["BTECbalcony"] = room("BTECbalcony", "The room is bare, and seems to serve only to connect the house to the outside world", {"E": "dining_room", "N": "library", "S": "fountain"})
-world["library"] = room("library", "A dusty library. Not much goes on here. South takes you to the conservatory, West to the entrance room", {"W": "entrance_way", "S": "BTECbalcony"}, ["cupboards"])
-world["coat_racks"] = room("coat_racks", "The room looks like a welcome room. In the corner there stands a coat rack with some coats on it", {"S": "kitchen", "E": "entrance_way"})
-world["entrance_way"] = room("entrance_way", "A moderately sized room with ", {"W": "coat_racks", "E": "library", "N": "exit"}, ["door"], ["N"])
+world["cellar"] = room("cellar", "A musty old cellar. How come you're down here? The cellar hatch is to the north.", {"N": "kitchen"}, ["duck", "key", "dirt"], ["N"])
+world["kitchen"] = room("kitchen", "An old kitchen, abandoned for years. There are some empty cupboards and a bucket. South is the cellar hatch, north lies a doorway to a room with coats hanging on a rack. East is the dining room.", {"S": "cellar", "E": "dining_room", "N": "coat_racks"}, ["bucket", "cupboards", "oven", "knife"])
+world["dining_room"] = room("dining room", "A dining room. Candles are burnt out, but fresh. The table lay bare, the eerie silence of the room disturbs you. West is the Kitchen. East is the conservatory to outside. ", {"W": "kitchen", "E": "BTECbalcony"})
+world["store_cupboard"] = room("store cupboard", "You see an old key in the corner of the room, locked in a cage. East is the fountain", {"E": "fountain"}, ["cage", "rake"])
+world["fountain"] = room("fountain", "The crisp wind bites at your skin through your thin clothing. A fountain is in the middle of this small garden", {"W": "store_cupboard", "N": "BTECbalcony"}, ["fountain", "doghouse", "leaves"])
+world["BTECbalcony"] = room("conservatory", "The room is bare, and seems to serve only to connect the house to the outside world", {"W": "dining_room", "N": "library", "S": "fountain"}, ["plant", "rockinghorse"])
+world["library"] = room("library", "A dusty library. Not much goes on here. South takes you to the conservatory, West to the entrance room", {"W": "entrance_way", "S": "BTECbalcony"}, ["bookshelf"])
+world["coat_racks"] = room("coat room", "The room looks like a welcome room. In the corner there stands a coat rack with some coats on it", {"S": "kitchen", "E": "entrance_way"}, ["coats", "coatrack", "window"])
+world["entrance_way"] = room("entrance way", "A moderately sized room with ", {"W": "coat_racks", "E": "library", "N": "exit"}, ["door", "keyrack", "painting"], ["N"])
 world["exit"] = room("exit", "", {})
 
 def show_help():
+        print("")
         print("To traverse the world, use the keyword 'go' along with a specified direction")
         print("Directions are North, east south or west")
         print("")
@@ -153,6 +155,8 @@ def show_help():
         print("You can view your inventory by typing 'inv'")
         print("")
         print("If you forget what room you are in at any time, simply use the command 'curr'")
+        print("")
+        print("When referring to any items with two words, leave no space in between e.g: keyrack")
 
 def make_list(string):
         # makes a list of words from a string, seperated on spaces
@@ -260,12 +264,12 @@ def parse(word_list):
                                 print("please specifiy something to take")
                                 break
                         if len(player.current_room.items) > 0:
-                                if word_list[i+1] in player.current_room.items:
+                                if word_list[i+1] in player.current_room.items and item_dict[word_list[i+1]].takable == True:
                                         print("picking up item " + word_list[i+1])
                                         player.inv.append(word_list[i+1])
                                         player.current_room.items.remove(word_list[i+1])
                                 else:
-                                        print("item not found")
+                                        print("item not found, or you can't pick that up")
                         break
 
                 # drop check
@@ -289,11 +293,11 @@ def parse(word_list):
                         if len(word_list) < i+2:
                                 print("Please specify an item to use")
                                 break
-                        if word_list[i+1] in player.inv and item_dict[word_list[i+1]].takable == True: #or word_list[i+1] in player.current_room.items:
+                        if word_list[i+1] in player.inv and item_dict[word_list[i+1]].takable == True and player.current_room.name in item_dict[word_list[i+1]].usable_rooms: #or word_list[i+1] in player.current_room.items:
                                 print("Using item " + word_list[i+1])
                                 use(word_list[i+1])
                         else:
-                                print("item not in inventory")
+                                print("item not in inventory, or this is not the place to use that")
 
                         break
 						
@@ -331,6 +335,7 @@ input("Press [ENTER] to start your adventure!")
 print("You wake up in a cold, dingy room. Your skin is covered in filth and you smell")
 print("The dirt you lie on is wet and insect-ridden.")
 print("You see a crack of light above you (north)")
+print(item_dict["duck"].takable)
 while(gameRunning):
         playerInput = input("What do you do?")
         parse(make_list(playerInput))
