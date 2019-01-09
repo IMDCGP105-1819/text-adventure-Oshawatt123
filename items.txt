@@ -1,5 +1,5 @@
-FORMAT: dict_name;game_name;description;Takable = False;Usable_Rooms = []	RULES: NO SPACES EXCEPT FOR DESCRIPTION PURPOSES, NO "" OR ''
-key;key;a dull key;True;[cellar,entrance_way]
+FORMAT: dict_name;game_name;description;Takable = False;Usable_Rooms = []	RULES: NO SPACES EXCEPT FOR DESCRIPTION PURPOSES AND ROOM NAMES, NO "" OR '', MUST LEAVE ONE EMPTY LINE AT THE BOTTOM
+key;key;a dull key;True;[cellar,entrance way]
 duck;duck;A trusty companion. *Quack*;True;[]
 dirt;dirt;Moist ground that squelches under the pressure of your bare foot
 bucket;bucket;Its a bucket. you could put it on your head, but that would't get you far.;True;[fountain]
@@ -13,7 +13,7 @@ door;door;The cold door is reinforced with a wraught iron lock, leaving no way t
 keyrack;keyrack;There are no keys on the keyrack, but is worn down; implying the normal presence of a key
 painting;painting;It looks as if it is staring deep into your soul; penetrating your mind
 bookshelf;bookshelf;The bookshelf looms over you, filled with all of the knowlegde. Along with my brand new Lamborghini
-table;tableThe table is cold. The remnants of food fill your nostrils, but see no signs of a recent dinner anywhere
+table;table;The table is cold. The remnants of food fill your nostrils, but see no signs of a recent dinner anywhere
 chair;chair;The crude sun lounging chairs looks quite comfy, especially for eating. However, you feel like if you sat on the chairs, you would break it
 candles;candles;The wax is warm to your skin, and the candle was lit recently.
 curtain;curtain;The curtains blow in the wind, flapping calmly next to the window. After closer inspection, the window is not open..
@@ -24,5 +24,5 @@ doghouse;doghouse;Was there a dog here? Who knows
 leaves;leaves;A mess of leaves
 cage;cage;The cage sits atop a shelf. Nearby there is a balance with a filled bucket dangling from it, making it lean to one side.
 rake;rake;A nice rake, in its prime for raking;True;[fountain]
-lockpick;lockpick;a lockpick. It picks locks;True;[entrance_way]
-waterbucket;waterbucket;its a bucket. it is filled with water and has some weight to it;True;[store_cupboard]
+lockpick;lockpick;a lockpick. It picks locks;True;[entrance way]
+waterbucket;waterbucket;its a bucket. it is filled with water and has some weight to it;True;[store cupboard]
